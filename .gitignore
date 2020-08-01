@@ -1,0 +1,14 @@
+/.env
+/database/*
+!/database/.gitkeep
+/plugins/*
+!/plugins/.gitkeep
+!/plugins/*.mvodanovic.php
+/themes/*
+!/themes/.gitkeep
+/uploads/*
+!/uploads/.gitkeep
+/ssl/*
+!/ssl/.gitkeep
+/logs/*
+!/logs/.gitkeep

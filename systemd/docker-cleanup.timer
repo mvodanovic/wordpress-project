@@ -1,0 +1,8 @@
+[Unit]
+Description=Cleanup timer for Docker images
+
+[Timer]
+OnUnitInactiveSec=12h
+
+[Install]
+WantedBy=timers.target
