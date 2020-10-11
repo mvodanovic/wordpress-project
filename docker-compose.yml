@@ -41,6 +41,9 @@ services:
             - "./ssl:/var/www/ssl"
             - "./logs:/var/www/logs"
             - "./apache2/wordpress-in-docker.000-default.conf:/etc/apache2/sites-available/000-default.conf"
+            - "./build/wordpress/overrides.php.ini:/usr/local/etc/php/conf.d/overrides.php.ini"
+            - "./build/wordpress/startup.sh:/startup.sh"
+        entrypoint: "/startup.sh"
         depends_on:
             database:
                 condition: service_healthy
