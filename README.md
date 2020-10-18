@@ -2,7 +2,7 @@
 
 * Copy `.env.template` into `.env` and adjust values inside
 * Make `database/`, `plugins/`, `themes/`, `uploads/` and `logs/` have `0777` permissions (using chmod)
-* Copy required certificates into `ssl/`
+* Copy required certificates into `ssl/` - (run `bin/sync_certs.sh`)
 
 
 ## Quick / local start & stop
