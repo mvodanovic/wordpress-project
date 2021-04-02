@@ -48,3 +48,10 @@ sudo ufw allow 80
 sudo ufw allow 443
 sudo ufw enable
 ```
+
+## Certificate renewal using Let's Encrypt
+
+* Renewals cen simply be done by running `certbot renew` with the certificates generated with webroot renewal.
+* Script `bin/certbot_post_hook.sh` should be run after each successful renewal.
+* Running this script can be automated by setting it in `/etc/letsencrypt/renewal/XXX.conf`:
+  `renew_hook = /path/to/bin/certbot_post_hook.sh`
