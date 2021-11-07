@@ -62,3 +62,10 @@ sudo ufw enable
 
 * Run ``bin/backup.sh` to back up both the DB and all files which aren't Wordpress istelf
 * Directories which are backed up: plugins, themes, uploads
+
+
+## Wordpress update
+
+* First, back up the data (see: Backup)
+* Then, modify the Dockerfile with the new Wordpress Docker image version
+* Finally, restart the service, and log into the web admin
