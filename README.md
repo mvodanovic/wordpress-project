@@ -49,9 +49,16 @@ sudo ufw allow 443
 sudo ufw enable
 ```
 
+
 ## Certificate renewal using Let's Encrypt
 
 * Renewals cen simply be done by running `certbot renew` with the certificates generated with webroot renewal.
 * Script `bin/certbot_post_hook.sh` should be run after each successful renewal.
 * Running this script can be automated by setting it in `/etc/letsencrypt/renewal/XXX.conf`:
   `renew_hook = /path/to/bin/certbot_post_hook.sh`
+
+
+## Backup
+
+* Run ``bin/backup.sh` to back up both the DB and all files which aren't Wordpress istelf
+* Directories which are backed up: plugins, themes, uploads
