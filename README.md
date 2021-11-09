@@ -50,7 +50,7 @@ sudo ufw enable
 ```
 
 
-## Certificate renewal using Let's Encrypt
+## Certificate renewal using Lets Encrypt
 
 * Renewals cen simply be done by running `certbot renew` with the certificates generated with webroot renewal.
 * Script `bin/certbot_post_hook.sh` should be run after each successful renewal.
@@ -60,12 +60,12 @@ sudo ufw enable
 
 ## Backup
 
-* Run ``bin/backup.sh` to back up both the DB and all files which aren't Wordpress istelf
+* Run ``bin/backup.sh` to back up both the DB and all files which aren't WordPress itself
 * Directories which are backed up: plugins, themes, uploads
 
 
-## Wordpress update
+## WordPress update
 
 * First, back up the data (see: Backup)
-* Then, modify the Dockerfile with the new Wordpress Docker image version
+* Then, modify the Dockerfile with the new WordPress Docker image version
 * Finally, restart the service, and log into the web admin

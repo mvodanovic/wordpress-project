@@ -1,9 +1,10 @@
+/.idea
 /.env
 /database/*
 !/database/.gitkeep
 /plugins/*
 !/plugins/.gitkeep
-!/plugins/*.mvodanovic.php
+!/plugins/*.wp_container_inject.php
 /themes/*
 !/themes/.gitkeep
 /uploads/*

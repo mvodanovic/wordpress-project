@@ -1,18 +1,17 @@
 version: '2.4'
 services:
-    database:
+    mysql:
         image: mysql:5.7.31
-        container_name: database
         restart: always
         ports:
-            - "23306:3306"
+            - "${HOST_PORT_MYSQL}:3306"
         expose:
             - 3306
         environment:
-            MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
-            MYSQL_DATABASE: frozen_spring
-            MYSQL_USER: frozensp
-            MYSQL_PASSWORD: ${USER_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         volumes:
             - "./database:/var/lib/mysql/"
         healthcheck:
@@ -20,25 +19,23 @@ services:
             timeout: 20s
             retries: 10
 
-    frozen-spring:
-        image: frozen-spring:latest
+    wordpress:
+        image: wp-local-build:latest
         build: build/wordpress
-        container_name: frozen-spring
         restart: always
         ports:
-            - "20443:443"
+            - "${HOST_PORT_WORDPRESS}:443"
         environment:
-            WORDPRESS_DB_HOST: database
-            WORDPRESS_DB_USER: frozensp
-            WORDPRESS_DB_PASSWORD: ${USER_PASSWORD}
-            WORDPRESS_DB_NAME: frozen_spring
+            WORDPRESS_DB_HOST: mysql
+            WORDPRESS_DB_USER: ${MYSQL_USER}
+            WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+            WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
             WORDPRESS_CONFIG_EXTRA: |
                 define('AUTOMATIC_UPDATER_DISABLED', true);
         volumes:
             - "./themes:/var/www/html/wp-content/themes/"
             - "./plugins:/var/www/html/wp-content/plugins"
             - "./uploads:/var/www/html/wp-content/uploads"
-            - "./uploads:/var/www/frozen-spring.com/wp-content/uploads"
             - "./ssl:/var/www/ssl"
             - "./logs:/var/www/logs"
             - "./apache2/wordpress-in-docker.000-default.conf:/etc/apache2/sites-available/000-default.conf"
@@ -46,24 +43,23 @@ services:
             - "./build/wordpress/startup.sh:/startup.sh"
         entrypoint: "/startup.sh"
         depends_on:
-            database:
+            mysql:
                 condition: service_healthy
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
         restart: always
         ports:
-            - "20080:80"
+            - "${HOST_PORT_PHPMYADMIN}:80"
         environment:
-            PMA_HOST: database
+            PMA_HOST: mysql
             PMA_PORT: 3306
-            PMA_USER: frozensp
-            PMA_PASSWORD: ${USER_PASSWORD}
+            PMA_USER: ${MYSQL_USER}
+            PMA_PASSWORD: ${MYSQL_PASSWORD}
         volumes:
             - "./ssl:/var/www/ssl"
             - "./logs:/var/www/logs"
             - "./apache2/phpmyadmin-in-docker.000-default.conf:/etc/apache2/sites-available/000-default.conf"
         depends_on:
-            database:
+            mysql:
                 condition: service_healthy
