@@ -12,7 +12,7 @@ fi
 
 pushd "${ROOT_DIR}" 1> /dev/null || exit
 
-sudo rm -rf database/* logs/* themes/* uploads/*
+sudo rm -rf database/* logs/* themes/* uploads/* build/apache2/*
 sudo find plugins -type f -not -name .gitkeep -and -not -name '*.wp_container_inject.php' -delete
 
 popd 1> /dev/null || exit

@@ -4,7 +4,7 @@ services:
         image: mysql:5.7.31
         restart: always
         ports:
-            - "${HOST_PORT_MYSQL}:3306"
+            - "${PORT_DOCKER_MYSQL}:3306"
         expose:
             - 3306
         environment:
@@ -24,7 +24,7 @@ services:
         build: build/wordpress
         restart: always
         ports:
-            - "${HOST_PORT_WORDPRESS}:443"
+            - "${PORT_DOCKER_WORDPRESS}:443"
         environment:
             WORDPRESS_DB_HOST: mysql
             WORDPRESS_DB_USER: ${MYSQL_USER}
@@ -38,7 +38,7 @@ services:
             - "./uploads:/var/www/html/wp-content/uploads"
             - "./ssl:/var/www/ssl"
             - "./logs:/var/www/logs"
-            - "./apache2/wordpress-in-docker.000-default.conf:/etc/apache2/sites-available/000-default.conf"
+            - "./build/apache2/wordpress-in-docker.000-default.conf:/etc/apache2/sites-available/000-default.conf"
             - "./build/wordpress/overrides.php.ini:/usr/local/etc/php/conf.d/overrides.php.ini"
             - "./build/wordpress/startup.sh:/startup.sh"
         entrypoint: "/startup.sh"
@@ -50,7 +50,7 @@ services:
         image: phpmyadmin/phpmyadmin
         restart: always
         ports:
-            - "${HOST_PORT_PHPMYADMIN}:80"
+            - "${PORT_DOCKER_PHPMYADMIN}:80"
         environment:
             PMA_HOST: mysql
             PMA_PORT: 3306
@@ -59,7 +59,7 @@ services:
         volumes:
             - "./ssl:/var/www/ssl"
             - "./logs:/var/www/logs"
-            - "./apache2/phpmyadmin-in-docker.000-default.conf:/etc/apache2/sites-available/000-default.conf"
+            - "./build/apache2/phpmyadmin-in-docker.000-default.conf:/etc/apache2/sites-available/000-default.conf"
         depends_on:
             mysql:
                 condition: service_healthy

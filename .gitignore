@@ -15,3 +15,5 @@
 !/logs/.gitkeep
 /backups/*
 !/backups/.gitkeep
+/build/apache2/*
+!/build/apache2/.gitkeep

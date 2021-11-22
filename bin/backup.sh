@@ -19,7 +19,7 @@ source ".env"
 
 echo "Backup timestamp: ${TS}"
 
-mysqldump --column-statistics=0 -h 127.0.0.1 -P "${HOST_PORT_MYSQL}" -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" > "${BACKUP_DB}" 2> "${BACKUP_DB_LOG}"
+mysqldump --column-statistics=0 -h 127.0.0.1 -P "${PORT_DOCKER_MYSQL}" -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" > "${BACKUP_DB}" 2> "${BACKUP_DB_LOG}"
 gzip "${BACKUP_DB}"
 
 # shellcheck disable=SC2086

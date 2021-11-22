@@ -1,0 +1,14 @@
+[Unit]
+Description={DOMAIN_NAME}
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory={ROOT_DIR}
+ExecStart={ROOT_DIR}/bin/start_web_app.sh
+ExecStop={ROOT_DIR}/bin/stop_web_app.sh
+
+[Install]
+WantedBy=multi-user.target
