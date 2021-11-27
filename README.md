@@ -7,9 +7,13 @@
   * It's possible skip these steps and reuse existing certificates.
     In that case those certs have to be copied into `ssl/` with the same names that this script would generate.
 * Prepare the host Apache server - (run `bin/deploy_to_host_apache.sh`)
-  * If `PORT_HOST_HTTP` and `PORT_HOST_HTTPS` are not `80` and `443`, Apache might need to additionally be manually configured to listen on those prots.
+  * If `PORT_HOST_HTTP` and `PORT_HOST_HTTPS` are not `80` and `443`, Apache might need to additionally be manually configured to listen on those ports.
   * This step will also generate self-signed HTTPS certificates if they don't exist yet.
-* TODO: Configure the firewall.
+* Configure the firewall - (run `bin/configure_ufw_firewall.sh`)
+  * Make sure `FIREWALL_INCOMING_PORTS_ALLOWED` has all the needed values so that you don't lock yourself out of the server.
+    The script won't delete any preexisting rules, but it will modify firewall defaults which may cause other services to be inaccessible if not added to the variable.
+  * Without this step users could access the exposed Docker ports directly, bypassing the Apache proxy.
+    Connecting directly to the MySQL database would also be possible.
 * Deploy the systemd service - (run `bin/deploy_systemd_service.sh`)
   * This step will just prepare the service, but it won't start it yet.
 * Start the systemd service - (run `sudo systemctl start {DOMAIN_NAME}`)
@@ -43,6 +47,7 @@ This section describes all supported variables in the `.env` file.
 * `PORT_DOCKER_PHPMYADMIN` - HTTP port through which the PhpMyAdmin application will be exposed to the host machine. Not used directly by users, Apache proxy passes to this port.
 * `PORT_HOST_HTTPS` - HTTPS port Apache listens on, on the host machine.
 * `PORT_HOST_HTTP` - HTTP port Apache listens on, on the host machine.
+* `FIREWALL_INCOMING_PORTS_ALLOWED` - When configuring the system firewall, which additional incoming ports to allow; list of items separated by space. `PORT_HOST_HTTP` and `PORT_HOST_HTTPS` are always allowed.
 
 
 ## Start & stop
@@ -58,21 +63,6 @@ sudo systemctl stop {DOMAIN_NAME}
 * Install `.pfx` (pkcs12) file as a certificate in browser
 * Firefox only: in about:config - `security.tls.enable_post_handshake_auth -> true`
 * Currently doesn't work at all with Chrome-based browsers.
-
-
-## Configure firewall - using ufw (TODO)
-
-* Configure docker in `/etc/default/docker`: `DOCKER_OPTS="--iptables=false"`
-* Restart docker service
-
-```
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw allow 22
-sudo ufw allow 80
-sudo ufw allow 443
-sudo ufw enable
-```
 
 
 ## Certificate renewal using Lets Encrypt
