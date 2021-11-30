@@ -9,6 +9,7 @@
 * Prepare the host Apache server - (run `bin/deploy_to_host_apache.sh`)
   * If `PORT_HOST_HTTP` and `PORT_HOST_HTTPS` are not `80` and `443`, Apache might need to additionally be manually configured to listen on those ports.
   * This step will also generate self-signed HTTPS certificates if they don't exist yet.
+  * PhpMyAdmin and WordPress deliberately use separate certificates to not expose PhpMyAdmin's domain in the WordPress certificate.
 * Configure the firewall - (run `bin/configure_ufw_firewall.sh`)
   * Make sure `FIREWALL_INCOMING_PORTS_ALLOWED` has all the needed values so that you don't lock yourself out of the server.
     The script won't delete any preexisting rules, but it will modify firewall defaults which may cause other services to be inaccessible if not added to the variable.
@@ -18,12 +19,13 @@
   * This step will just prepare the service, but it won't start it yet.
 * Start the systemd service - (run `sudo systemctl start {DOMAIN_NAME}`)
   * Running this step for the first time might take several minutes since some Docker images need to be pulled / built.
-* TODO: Initialize Lets Encrypt certificates using CertBot - (run `bin/initialize_certbot_certificates.sh`)
+* Initialize Lets Encrypt certificates using CertBot - (run `bin/initialize_certbot_certificates.sh`)
   * CertBot needs to be installed for this step: https://certbot.eff.org/instructions?ws=apache&os=ubuntu-20
   * Optional, but strongly recommended for real production websites.
   * Not possible for local deployments (without a public domain and not running on ports `80` and `443`).
   * Self-signed certificates from the previous step will be overwritten (i.e. deleted).
   * The website has to be up & running for CertBot to be able to create certificates.
+  * Like with the self-signed certificates, PhpMyAdmin and WordPress certificates are kept separate.
 
 
 ## Environment variables
@@ -68,15 +70,14 @@ sudo systemctl stop {DOMAIN_NAME}
 ## Certificate renewal using Lets Encrypt
 
 * Renewals cen simply be done by running `certbot renew` with the certificates generated with webroot renewal.
-* Script `bin/certbot_post_hook.sh` should be run after each successful renewal.
-* Running this script can be automated by setting it in `/etc/letsencrypt/renewal/XXX.conf`:
-  `renew_hook = /path/to/bin/certbot_post_hook.sh`
+* Script `bin/certbot_post_hook.sh` is configured to run automatically after each successful renewal.
 
 
 ## Backup
 
 * Run ``bin/backup.sh` to back up both the DB and all files which aren't WordPress itself
-* Directories which are backed up: plugins, themes, uploads
+* Files & directories which are backed up: .env, plugins, themes, uploads
+* The database is dumped & backed up in a separate file.
 
 
 ## WordPress update

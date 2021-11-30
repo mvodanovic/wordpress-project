@@ -10,7 +10,7 @@ BACKUPS_DIR="backups"
 BACKUP_DB="${BACKUPS_DIR}/bkp-${TS}.sql"
 BACKUP_DB_LOG="${BACKUP_DB}.log"
 
-BACKUP_SOURCE_DIRS="plugins themes uploads"
+BACKUP_SOURCES="plugins themes uploads .env"
 BACKUP_FILES="${BACKUPS_DIR}/bkp-${TS}.tar.gz"
 
 pushd "${ROOT_DIR}" 1> /dev/null || exit
@@ -23,6 +23,6 @@ mysqldump --column-statistics=0 -h 127.0.0.1 -P "${PORT_DOCKER_MYSQL}" -u "${MYS
 gzip "${BACKUP_DB}"
 
 # shellcheck disable=SC2086
-tar -czf "${BACKUP_FILES}" ${BACKUP_SOURCE_DIRS}
+tar -czf "${BACKUP_FILES}" ${BACKUP_SOURCES}
 
 popd 1> /dev/null || exit

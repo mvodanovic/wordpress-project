@@ -25,7 +25,9 @@ sudo sed -i "s#{PORT_DOCKER_PHPMYADMIN}#${PORT_DOCKER_PHPMYADMIN}#" "${APACHE_DS
 if [ ! -f "${CERTS_DIR}/${DOMAIN_NAME}.web.crt" ]; then
   openssl genrsa -out "${CERTS_DIR}/${DOMAIN_NAME}.web.key" 3072
   openssl req -new -out "${CERTS_DIR}/${DOMAIN_NAME}.web.csr" -sha256\
-    -subj "/CN=${DOMAIN_NAME}" -key "${CERTS_DIR}/${DOMAIN_NAME}.web.key"
+    -subj "/CN=${DOMAIN_NAME}"\
+    -addext "subjectAltName = DNS:${DOMAIN_NAME}, DNS:www.${DOMAIN_NAME}"\
+    -key "${CERTS_DIR}/${DOMAIN_NAME}.web.key"
   openssl x509 -req -in "${CERTS_DIR}/${DOMAIN_NAME}.web.csr" -days 3650\
     -signkey "${CERTS_DIR}/${DOMAIN_NAME}.web.key"\
     -out "${CERTS_DIR}/${DOMAIN_NAME}.web.crt" -outform PEM
