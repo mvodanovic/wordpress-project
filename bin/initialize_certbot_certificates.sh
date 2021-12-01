@@ -10,11 +10,11 @@ pushd "${ROOT_DIR}" 1> /dev/null || exit
 
 source ".env"
 
-sudo certbot certonly --register-unsafely-without-email --webroot -w "/var/www/html" -d "${DOMAIN_NAME}" -d "www.${DOMAIN_NAME}"
+sudo certbot certonly --register-unsafely-without-email --webroot -w "/var/www/letsencrypt" -d "${DOMAIN_NAME}" -d "www.${DOMAIN_NAME}"
 sudo sed -i "/^renew_hook =/d" "${CERTBOT_CERTS_DIR}/${DOMAIN_NAME}.conf"
 sudo sed -i "/^fullchain = .*/a renew_hook = ${CERTBOT_RENEWAL_HOOK}" "${CERTBOT_CERTS_DIR}/${DOMAIN_NAME}.conf"
 
-sudo certbot certonly --register-unsafely-without-email --webroot -w "/var/www/html" -d "${PHPMYADMIN_DOMAIN_NAME}"
+sudo certbot certonly --register-unsafely-without-email --webroot -w "/var/www/letsencrypt" -d "${PHPMYADMIN_DOMAIN_NAME}"
 sudo sed -i "/^renew_hook =/d" "${CERTBOT_CERTS_DIR}/${PHPMYADMIN_DOMAIN_NAME}.conf"
 sudo sed -i "/^fullchain = .*/a renew_hook = ${CERTBOT_RENEWAL_HOOK}" "${CERTBOT_CERTS_DIR}/${PHPMYADMIN_DOMAIN_NAME}.conf"
 
