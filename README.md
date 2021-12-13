@@ -34,11 +34,10 @@ This section describes all supported variables in the `.env` file.
 
 * `DOMAIN_NAME` - Domain name for the WordPress website.
 * `PHPMYADMIN_DOMAIN_NAME` - Domain name for the PhpMyAdmin application.
-* `CA_NAME` - Name of the CA, used only to name the certificate file, not used in the actual certificate itself.
-* `CA_PASSPHRASE` - Passphrase for the CA, cannot be left blank.
-* `CA_ORG_NAME` - Organization name of the CA, part of the certificate metadata.
 * `CA_COMMON_NAME` - Common name of the CA, part of the certificate metadata.
-* `CLIENT_CERT_COMMON_NAME` - Common name of the client certificate, part of the certificate metadata.
+* `CA_ORG_NAME` - Organization name of the CA, part of the certificate metadata.
+* `CA_PASSPHRASE` - Passphrase for the CA, cannot be left blank.
+* `CLIENT_CERT_ORG_NAME` - Organization name of the client certificate, part of the certificate metadata.
 * `CLIENT_CERT_PASSPHRASE` - Passphrase for the client certificate, can be left blank.
 * `MYSQL_ROOT_PASSWORD` - Root password for the MySQL database.
 * `MYSQL_DATABASE` - MySQL database name for the WordPress website.
