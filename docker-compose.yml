@@ -1,7 +1,7 @@
 version: '2.4'
 services:
     mysql:
-        image: mysql:5.7.31
+        image: mysql:8.0.27
         restart: always
         ports:
             - "${PORT_DOCKER_MYSQL}:3306"
@@ -47,7 +47,7 @@ services:
                 condition: service_healthy
 
     phpmyadmin:
-        image: phpmyadmin/phpmyadmin
+        image: phpmyadmin:5.1.1-apache
         restart: always
         ports:
             - "${PORT_DOCKER_PHPMYADMIN}:80"
