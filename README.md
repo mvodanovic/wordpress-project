@@ -44,7 +44,7 @@ This section describes all supported variables in the `.env` file.
 * `MYSQL_USER` - MySQL username for the WordPress website.
 * `MYSQL_PASSWORD` - MySQL password for the WordPress website.
 * `PORT_DOCKER_MYSQL` - Port through which the MySQL database will be exposed to the host machine. Used only for debugging.
-* `PORT_DOCKER_WordPress` - HTTPS port through which the WordPress website will be exposed to the host machine. Not used directly by users, Apache proxy passes to this port.
+* `PORT_DOCKER_WORDPRESS` - HTTPS port through which the WordPress website will be exposed to the host machine. Not used directly by users, Apache proxy passes to this port.
 * `PORT_DOCKER_PHPMYADMIN` - HTTP port through which the PhpMyAdmin application will be exposed to the host machine. Not used directly by users, Apache proxy passes to this port.
 * `PORT_HOST_HTTPS` - HTTPS port Apache listens on, on the host machine.
 * `PORT_HOST_HTTP` - HTTP port Apache listens on, on the host machine.
@@ -74,7 +74,7 @@ sudo systemctl stop {DOMAIN_NAME}
 
 ## Backup
 
-* Run ``bin/backup.sh` to back up both the DB and all files which aren't WordPress itself
+* Run `bin/backup.sh` to back up both the DB and all files which aren't WordPress itself
 * Files & directories which are backed up: .env, plugins, themes, uploads
 * The database is dumped & backed up in a separate file.
 
